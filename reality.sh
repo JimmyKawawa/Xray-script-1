@@ -653,10 +653,10 @@ function menu() {
     fi
     ;;
   201)
-    bash <(wget -qO- https://raw.githubusercontent.com/zxcvos/system-automation-scripts/main/update-kernel.sh)
+    bash <(wget -qO- https://raw.githubusercontent.com/JimmyKawawa/system-automation-scripts/main/update-kernel.sh)
     ;;
   202)
-    bash <(wget -qO- https://raw.githubusercontent.com/zxcvos/system-automation-scripts/main/remove-kernel.sh)
+    bash <(wget -qO- https://raw.githubusercontent.com/JimmyKawawa/system-automation-scripts/main/remove-kernel.sh)
     ;;
   203)
     local ssh_port=$(sed -En "s/^[#pP].*ort\s*([0-9]*)$/\1/p" /etc/ssh/sshd_config)
