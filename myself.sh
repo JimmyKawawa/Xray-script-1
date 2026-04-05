@@ -200,7 +200,7 @@ function install_dependencies() {
 function install_nginx_dependencies() {
     case "$(_os)" in
         centos)
-            wget -O /etc/yum.repos.d/nginx.repo https://raw.githubusercontent.com/zxcvos/Xray-script/main/repo/nginx.repo
+            wget -O /etc/yum.repos.d/nginx.repo https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/repo/nginx.repo
             ;;
         debian|ubuntu)
             [[ ${is_mainline} =~ ^[Yy]$ ]] && mainline="/mainline"
@@ -221,7 +221,7 @@ function install_update_xray() {
     _info "installing or updating Xray..."
     _error_detect 'bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root --beta'
     jq --arg ver "$(xray version | head -n 1 | cut -d \( -f 1 | grep -Eoi '[0-9.]*')" '.xray.version = $ver' /usr/local/etc/xray-script/config.json > /usr/local/etc/xray-script/new.json && mv -f /usr/local/etc/xray-script/new.json /usr/local/etc/xray-script/config.json
-    wget -O /usr/local/etc/xray-script/update-dat.sh https://raw.githubusercontent.com/zxcvos/Xray-script/main/tool/update-dat.sh
+    wget -O /usr/local/etc/xray-script/update-dat.sh https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/tool/update-dat.sh
     chmod a+x /usr/local/etc/xray-script/update-dat.sh
     crontab -l | { cat; echo "30 22 * * * /usr/local/etc/xray-script/update-dat.sh >/dev/null 2>&1"; } | uniq | crontab -
     /usr/local/etc/xray-script/update-dat.sh
@@ -310,7 +310,7 @@ function purge_acme_sh() {
 }
 
 function config_xray() {
-    wget -O ${HOME}/config.json https://raw.githubusercontent.com/zxcvos/Xray-script/main/VLESS-XTLS-uTLS-REALITY/myself.json
+    wget -O ${HOME}/config.json https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/VLESS-XTLS-uTLS-REALITY/myself.json
     xray_x25519=$(xray x25519)
     private_key=$(echo ${xray_x25519} | awk '{print $3}')
     public_key=$(echo ${xray_x25519} | awk '{print $6}')
@@ -337,7 +337,7 @@ function config_nginx() {
     cd /etc/nginx
     [ -f /etc/nginx/conf.d/default.conf ] && grep -Eqv '^#' /etc/nginx/conf.d/default.conf && sed -i 's/^/#/' /etc/nginx/conf.d/default.conf
     wget -O mime.types https://raw.githubusercontent.com/nginx/nginx/master/conf/mime.types
-    wget -O /etc/nginx/conf.d/restrict.conf https://raw.githubusercontent.com/zxcvos/Xray-script/main/config/restrict.conf
+    wget -O /etc/nginx/conf.d/restrict.conf https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/config/restrict.conf
     sed -i 's/^/#/' /etc/nginx/conf.d/restrict.conf
     echo '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' | base64 --decode | tee /etc/nginx/nginxconfig.io-example.com.tar.gz > /dev/null
     tar -xzvf nginxconfig.io-example.com.tar.gz | xargs chmod 0644
@@ -360,25 +360,25 @@ function config_nginx() {
 }
 
 function config_cloudreve() {
-    wget -O ${HOME}/conf.ini https://raw.githubusercontent.com/zxcvos/Xray-script/main/config/cloudreve.ini
+    wget -O ${HOME}/conf.ini https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/config/cloudreve.ini
     mv -f ${HOME}/conf.ini /usr/local/cloudreve/conf.ini
     sed -i "s|\$remote_addr|\$proxy_protocol_addr|" /etc/nginx/nginxconfig.io/proxy.conf
 }
 
 function service_xray() {
-    wget -O ${HOME}/xray.service https://raw.githubusercontent.com/zxcvos/Xray-script/main/service/xray.service
+    wget -O ${HOME}/xray.service https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/service/xray.service
     mv -f ${HOME}/xray.service /etc/systemd/system/xray.service
     _systemctl dr
 }
 
 function service_nginx() {
-    wget -O ${HOME}/nginx.service https://raw.githubusercontent.com/zxcvos/Xray-script/main/service/nginx.service
+    wget -O ${HOME}/nginx.service https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/service/nginx.service
     mv -f ${HOME}/nginx.service /etc/systemd/system/nginx.service
     _systemctl dr
 }
 
 function service_cloudreve() {
-    wget -O ${HOME}/cloudreve.service https://raw.githubusercontent.com/zxcvos/Xray-script/main/service/cloudreve.service
+    wget -O ${HOME}/cloudreve.service https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/service/cloudreve.service
     mv -f ${HOME}/cloudreve.service /etc/systemd/system/cloudreve.service
     _systemctl dr
 }
@@ -477,7 +477,7 @@ function menu() {
             if [ ! -d /usr/local/etc/xray-script ]; then
                 _read_domain
                 mkdir -p /usr/local/etc/xray-script
-                wget -O /usr/local/etc/xray-script/config.json https://raw.githubusercontent.com/zxcvos/Xray-script/main/config/config.json
+                wget -O /usr/local/etc/xray-script/config.json https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/config/config.json
                 install_dependencies
                 install_update_xray
                 install_update_nginx
@@ -526,7 +526,7 @@ function menu() {
             show_config
         ;;
         102)
-            [ -f /usr/local/etc/xray-script/traffic.sh ] || wget -O /usr/local/etc/xray-script/traffic.sh https://raw.githubusercontent.com/zxcvos/Xray-script/main/tool/traffic.sh
+            [ -f /usr/local/etc/xray-script/traffic.sh ] || wget -O /usr/local/etc/xray-script/traffic.sh https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/tool/traffic.sh
             bash /usr/local/etc/xray-script/traffic.sh
         ;;
         103)
@@ -590,7 +590,7 @@ function menu() {
             systemctl restart sshd
         ;;
         204)
-            wget -O /etc/sysctl.conf https://raw.githubusercontent.com/zxcvos/Xray-script/main/config/sysctl.conf
+            wget -O /etc/sysctl.conf https://raw.githubusercontent.com/JimmyKawawa/Xray-script-1/main/config/sysctl.conf
             sysctl -p
         ;;
         0)
